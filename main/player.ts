@@ -18,11 +18,8 @@ const player: RpgPlayerHooks = {
             player.callMainMenu()
         }
     },
-    async onJoinMap(player: RpgPlayer) {
-        if (player.getVariable('AFTER_INTRO')) {
-            return
-        }
-       
+    onJoinMap(player: RpgPlayer) {
+        player.gui('my-hud').open() // Here, open the HUD after loading the map
     }
 }
 

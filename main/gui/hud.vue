@@ -10,6 +10,7 @@
 <script>
 export default {
     name: 'my-hud',
+    inject: ['rpgCurrentPlayer'],
     data() {
         return {
             hp: 0,
@@ -17,12 +18,19 @@ export default {
         }
     },
     mounted() {
-       // We listen to the change in HP
+        this.obsCurrentPlayer = this.rpgCurrentPlayer
+            .subscribe(({ object }) => {
+                this.hp = object.hp
+                this.maxHp = object.param.maxHp
+            })
     },
     computed: {
         width() {
             return ((this.hp / this.maxHp) * 100) + '%'
         }
+    },
+    unmounted() {
+        this.obsCurrentPlayer.unsubscribe()
     }
 }
 </script>
@@ -40,6 +48,8 @@ export default {
     color: white;
     font-size: 21px;
     font-weight: bold;
+    position: relative;
+
 }
 
 .bar {
